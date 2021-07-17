@@ -25,7 +25,15 @@ class ProfileController extends Controller
         $profile = new Profile;
         $form = $request->all();
         
+        if (isset($form['image'])) {
+            $path = $request->file('image')->store('public/image');
+            $profile->my_image_path = basename($path);
+        } else {
+            $profile->my_image_path = null;
+        }
+        
         unset($form['_token']);
+        unset($form['image']);
         
         $profile->fill($form);
         $profile->save();
@@ -58,7 +66,17 @@ class ProfileController extends Controller
         $this->validate($request, Profile::$rules);
         $profile = Profile::find($request->id);
         $profile_form = $request->all();
+        if ($request->remove == 'true') {
+          $profile_form['my_image_path'] = null;
+        } elseif ($request->file('image')) {
+          $path = $request->file('image')->store('public/image');
+          $profile_form['my_image_path'] = basename($path);
+        } else {
+          $profile_form['my_image_path'] = $profile->my_image_path;
+        }
         
+        unset($profile_form['image']);
+        unset($profile_form['remove']);
         unset($profile_form['_token']);
         $profile->fill($profile_form)->save();
         
