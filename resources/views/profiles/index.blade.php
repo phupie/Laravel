@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="image col-md-6 text-right mt-4">
                                 @if ($post->my_image_path)
-                                    <img src="{{ asset('storage/image/' . $post->my_image_path) }}">
+                                    <img src="{{ $post->my_image_path }}">
                                 @endif
                             </div>
                             <div class="text col-md-6">

@@ -11,6 +11,8 @@ use App\ProfileHistory;
 
 use Carbon\Carbon;
 
+use Storage;
+
 class ProfileController extends Controller
 {
     public function add()
@@ -26,8 +28,8 @@ class ProfileController extends Controller
         $form = $request->all();
         
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');
-            $profile->my_image_path = basename($path);
+            $path = Storage::disk('s3')->putFile('/',$form['image'],'public');
+            $profile->my_image_path = Storage::disk('s3')->url($path);
         } else {
             $profile->my_image_path = null;
         }
@@ -69,8 +71,8 @@ class ProfileController extends Controller
         if ($request->remove == 'true') {
           $profile_form['my_image_path'] = null;
         } elseif ($request->file('image')) {
-          $path = $request->file('image')->store('public/image');
-          $profile_form['my_image_path'] = basename($path);
+          $path = Storage::disk('s3')->putFile('/',$profile_form['image'],'public');
+          $profile_form['my_image_path'] = Storage::disk('s3')->url($path);
         } else {
           $profile_form['my_image_path'] = $profile->my_image_path;
         }
