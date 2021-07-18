@@ -4,6 +4,7 @@
 
 @section('content')
     <div class="container">
+        <h1>ニュース</h1>
         <hr color="#c0c0c0">
         @if ($headline != null)
             <div class="row">

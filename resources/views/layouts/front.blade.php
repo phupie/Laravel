@@ -23,19 +23,33 @@
       <nav class="navbar navbar-expand-md navbar-dark navbar-laravel">
         <div class="container">
           <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            News
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navberSupportedContent" aria-expanded="false" aria-label="Togglenavigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-              
+              <a href="{{ action('ProfileController@index') }}" class="nav-link">プロフィール一覧</a>
             </ul>
             <ul class="navbar-nav ml-auto">
             @guest
+              <li><a class="nav-link" href="{{ url('/register') }}">新規登録</a></li>
               <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
             @else
+              <li class="nav-item dropdown">
+                  <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                      新規作成 <span class="caret"></span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{ action('Admin\NewsController@create') }}">
+                          ニュース作成
+                      </a>
+                      <a class="dropdown-item" href="{{ action('Admin\ProfileController@create') }}">
+                          プロフィール作成
+                      </a>
+                  </div>
+              </li>
               <li class="nav-item dropdown">
                   <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                       {{ Auth::user()->name }} <span class="caret"></span>
